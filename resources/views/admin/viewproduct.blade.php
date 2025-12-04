@@ -33,7 +33,7 @@
                     </td>            
                     <td style="padding: 12px;">{{$product->product_category}}</td>
                     <td>
-                        <a href="{{ route('admin.updateproduct') }}" style="background-color: rgb(239, 172, 2); 
+                        <a href="{{ route('admin.productupdate',$product->id) }}" style="background-color: rgb(239, 172, 2); 
                             color: white;
                             padding: 5px 10px;
                             text-decoration: none; 

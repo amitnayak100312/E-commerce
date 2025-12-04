@@ -1,6 +1,6 @@
 @extends('admin.maindesing')
 
-@session('dashbosrd')
+@section('dashbosrd')
 
 
  <div class="container-fluid">
@@ -68,4 +68,4 @@
                 </div>
            
 
-@endsession
+@endsection

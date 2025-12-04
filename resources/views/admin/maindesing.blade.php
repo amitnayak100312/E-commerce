@@ -88,18 +88,18 @@
             </div>
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
             <ul class="list-unstyled">
-                <li class="active"><a href="index.html"> <i class="icon-home"></i>Home </a></li>
-                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
+                <li class="active"><a href=""> <i class="icon-home"></i>Home </a></li>
+                <li><a href="#category" aria-expanded="false" data-toggle="collapse"> <i
                             class="icon-windows"></i>Category</a>
-                    <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                    <ul id="category" class="collapse list-unstyled ">
                         <li><a href="{{route('admin.addcategory') }}">Add Category</a></li>
                         <li><a href="{{route('admin.viewcategory') }}">View Category</a></li>
                          
                     </ul>
                 </li>
-                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
+                <li><a href="#product" aria-expanded="false" data-toggle="collapse"> <i
                             class="icon-windows"></i>Product</a>
-                    <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                    <ul id="product" class="collapse list-unstyled ">
                         <li><a href="{{route('admin.addproduct') }}">Add Product</a></li>
                         <li><a href="{{route('admin.viewproduct')}}">View Product</a></li>
                         <li><a href="#">View Order</a></li>
@@ -120,6 +120,7 @@
                 @yield('viewcategory')
                 @yield('addproduct')
                 @yield('viewproduct')
+                @yield('updateproduct')
                 
 
                 

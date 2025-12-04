@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use GuzzleHttp\Handler\Proxy;
 
 class AdminController extends Controller
 {
@@ -100,7 +101,7 @@ class AdminController extends Controller
     
     //view product
     public function viewProduct() {
-        $products = Product::paginate(1);
+        $products = Product::paginate(2);
 
         return view('admin.viewproduct', compact('products'));
     }
@@ -119,19 +120,35 @@ class AdminController extends Controller
     
     //update a product
     
-    function updateproduct($id)
+    function productUpdate($id)
     {
-        $category = Category::findOrFail($id);
-        return view('admin.categoryupdate', compact('category'));
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        return view('admin.productupdate', compact('product','categories'));
     }
 
     //funtion a update product
     function postupdateproduct(Request $request, $id)
     {
-        $category  = Category::findOrFail($id);
-
-        $category->category = $request->category;
-        $category->save();
-        return redirect()->back()->with('category_upadated_message', 'Category Updated successfully!');
+        $product = Product::findOrFail($id);
+        $product->product_title = $request->product_titel;
+        $product->product_description = $request->product_description;
+        $product->product_quantity = $request->product_quantity;
+        $product->product_price = $request->product_price;
+        
+        $image=$request->product_image;
+        if($image){
+            $imagename = time().'.'.$image->getClientOriginalExtension();
+            $product->product_image=$imagename;
+        }
+        
+        $product->product_category = $request->porduct_category;
+        $product->save();
+        
+        if($image && $product->save()){
+            $request->product_image->move('products',$imagename);
+        }
+        
+     return redirect()->back()->with('productUpdateMsg', 'Product Updated successfully!');
     }
 }
