@@ -36,7 +36,11 @@
                         </a>
                         
                         <a href="{{ route('admin.categorydelete', $category->id) }}"
-                            style="background-color: rgb(184, 0, 0); color: white; padding: 5px 10px; text-decoration: none; border-radius: 5px; font-weight: bold;"
+                            style="background-color: rgb(184, 0, 0); 
+                            color: white; padding: 5px 10px; 
+                            text-decoration: none; b
+                            order-radius: 
+                            5px; font-weight: bold;"
                             onclick="return confirm('Are you sure!')"
                             >
                             Delete
