@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
+use GuzzleHttp\Handler\Proxy;
 
 class UserController extends Controller
 {
@@ -14,5 +16,16 @@ class UserController extends Controller
         } else if (auth::user()->user_type == "admin") {
             return view('admin.dashboard');
         }
+    }
+    
+    
+    public function home(){
+        $products = Product::all();
+        return view('index',compact('products'));
+    }
+    
+    public function product_details($id){
+        $poduct = Product::findOrFail($id);
+        return view('product_details',compact('product'));
     }
 }
