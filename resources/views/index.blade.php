@@ -1,7 +1,6 @@
-@extends('maindesing');
+@extends('maindesign')
 
 @section('index')
-
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -12,7 +11,7 @@
         @foreach ($products as $product)
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="box">
-            <a href="{{route('product_details',$product->) }}">
+            <a href="{{route('product_details',$product->id) }}">
               <div class="img-box">
                 <img src="{{asset('products/'.$product->product_image)}}" alt="">
               </div>
@@ -43,6 +42,4 @@
         </a>
       </div>
     </div>
-
-
 @endsection

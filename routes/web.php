@@ -9,6 +9,9 @@ Route::get('/', [UserController::class,'home'])->name('index');
 
 Route::get('/dashboard', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+//user
+Route::get('/product_details/{id}', [UserController::class, 'product_details'])->name('product_details');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -34,11 +37,6 @@ Route::middleware('admin')->group(function () {
     Route::get('/productupdate/{id}', [AdminController::class, 'productUpdate'])->name('admin.productupdate');
     Route::post('/updateproduct/{id}', [AdminController::class, 'postupdateproduct'])->name('admin.postupdateproduct');
     Route::any('/searchproduct', [AdminController::class, 'searchproduct'])->name('admin.searchproduct');
-    
-    
-    //user
-    Route::get('/product_details/{id}', [UserController::class,'product_details'])->name('product_details');
-    
 });
 
 require __DIR__ . '/auth.php';

@@ -24,8 +24,14 @@ class UserController extends Controller
         return view('index',compact('products'));
     }
     
-    public function product_details($id){
-        $poduct = Product::findOrFail($id);
-        return view('product_details',compact('product'));
-    }
+    // public function product_details($product_title){
+    //     $product = Product::findOrFail($product_title);
+    //     return view('product_details',compact('product'));
+    // }
+    
+    public function product_details($id) // Change argument to match route
+{
+    $product = Product::findOrFail($id); // Find by ID
+    return view('product_details', compact('product'));
+}
 }
