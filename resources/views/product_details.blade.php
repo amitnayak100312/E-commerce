@@ -1,6 +1,14 @@
 @extends('maindesign')
 <base href="/public">
-@section('index') <style>
+@section('index') 
+
+@if(session('cart_msg'))
+    <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-relative"  role="alert">
+               {{ session('cart_msg') }}
+    </div>
+@endif
+
+<style>
         .product-image-container {
             overflow: hidden;
             border-radius: 8px;
@@ -8,7 +16,7 @@
         }
         .main-image {
             width: 100%;
-            height: 500px;
+            height:500px;
             object-fit: cover; /* Keeps image aspect ratio */
             transition: transform 0.3s ease;
         }
@@ -67,28 +75,14 @@
                 </div>
 
                 <div class="mb-4">
-                    <span class="price-tag">${{ $product->product_price }}</span>
-                    <span class="old-price">${{ $product->product_price * 1.2 }}</span>
+                    <span class="price-tag">₹{{ $product->product_price }}</span>
+                    <span class="old-price">₹{{ $product->product_price * 1.2 }}</span>
                     <span class="badge bg-danger ms-2">Sale</span>
                 </div>
 
                 <p class="lead mb-4">
-                    {{ $product->product_descriptions }}
+                    {{ $product->product_description }}
                 </p>
-
-                <div class="mb-4">
-                    <label class="fw-bold mb-2 d-block">Select Size</label>
-                    <div class="btn-group" role="group">
-                        <input type="radio" class="btn-check" name="size" id="sizeS" autocomplete="off">
-                        <label class="btn btn-outline-dark size-btn" for="sizeS">S</label>
-
-                        <input type="radio" class="btn-check" name="size" id="sizeM" autocomplete="off" checked>
-                        <label class="btn btn-outline-dark size-btn" for="sizeM">M</label>
-
-                        <input type="radio" class="btn-check" name="size" id="sizeL" autocomplete="off">
-                        <label class="btn btn-outline-dark size-btn" for="sizeL">L</label>
-                    </div>
-                </div>
 
                 <form action="#" method="POST">
                     @csrf
@@ -102,16 +96,16 @@
                             </div>
                         </div>
                         <div class="col">
-                            <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">
-                                <i class="fas fa-shopping-cart me-2"></i> Add to Cart
-                            </button>
+                            <a href="{{ route('add_to_cart',$product->id)}}" type="submit" class="btn btn-primary btn-lg w-100 shadow-sm"> 
+                                <i class="fas fa-shopping-cart me-2"></i> Add to Cart 
+                        </a>
                         </div>
                     </div>
                 </form>
 
                 <div class="d-flex gap-4 text-muted small">
-                    <div><i class="fas fa-truck me-2"></i>Free Delivery</div>
-                    <div><i class="fas fa-undo me-2"></i>30 Days Return</div>
+                    <div><i class="fas fa-truck me-2"></i> Free Delivery  </div>
+                    <div><i class="fas fa-undo me-2"></i> 30 Days Return </div>
                 </div>
             </div>
         </div>
@@ -124,7 +118,9 @@
                 </ul>
                 <div class="tab-content p-4 border border-top-0 bg-white">
                     <div class="tab-pane fade show active" id="desc">
-                        <p>{{ $product->product_descriptions }}</p>
+                        <p>
+                    {{ $product->product_description }}
+                        </p>
                     </div>
                     <div class="tab-pane fade" id="reviews">
                         <p class="text-muted">No reviews yet.</p>

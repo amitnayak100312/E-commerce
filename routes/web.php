@@ -8,9 +8,12 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [UserController::class,'home'])->name('index');
 
 Route::get('/dashboard', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/addtocart/{id}', [UserController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('add_to_cart');
+Route::get('/cartproducts', [UserController::class, 'cartproducts'])->middleware(['auth', 'verified'])->name('cartproducts');
+Route::get('/removecartproduct/{id}', [UserController::class, 'removecartproduct'])->middleware(['auth', 'verified'])->name('removecartproduct');
 //user
 Route::get('/product_details/{id}', [UserController::class, 'product_details'])->name('product_details');
+Route::get('/viewallproducts', [UserController::class, 'viewallproducts'])->name('viewallproducts');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
