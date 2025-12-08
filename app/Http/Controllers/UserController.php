@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\ProductCart;
-
+use App\Models\Order;
 use GuzzleHttp\Handler\Proxy;
 use Reflection;
 
@@ -83,4 +83,26 @@ class UserController extends Controller{
         $cart_product->delete();
         return redirect()->back();
     }
+    
+    public function confirm_order(Request $request){
+        $cart_user_id = ProductCart::where('user_id',Auth::id())->get();
+        $address = $request->receiver_address;
+        $contact = $request->receiver_contact_num;
+        foreach($cart_user_id as $cart_product){     
+            $order = New Order();
+            $order->receiver_address=$address;
+            $order->receiver_contact_num=$contact;
+            $order->user_id=Auth::id();
+            $order->product_id=$cart_product->product_id;
+            $order->save();
+        }
+        
+        $carts = ProductCart::where('user_id',Auth::id())->get();
+        foreach($carts as $cart){
+            $cart_id=  ProductCart :: findOrFail($cart->id);
+            $cart_id->delete();
+        }
+         return redirect()->back()->with('confirmMsg','Order Confirm');
+    }
+    
 }
