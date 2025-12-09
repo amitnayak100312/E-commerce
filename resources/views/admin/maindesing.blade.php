@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Dark Bootstrap Admin </title>
+    <title>Admin Dashboard </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -34,7 +34,7 @@
                 <div class="navbar-header">
                     <!-- Navbar Header--><a href="index.html" class="navbar-brand">
                         <div class="brand-text brand-big visible text-uppercase"><strong
-                                class="text-primary">Dark</strong><strong>Admin</strong></div>
+                                class="text-primary">Admin</strong><strong>Dashboard</strong></div>
                         <div class="brand-text brand-sm"><strong class="text-primary">D</strong><strong>A</strong></div>
                     </a>
                     <!-- Sidebar Toggle Btn-->
@@ -49,7 +49,7 @@
                                 class="badge dashbg-1">5</span></a>
 
                     </div>
-                   
+
                     <!-- Log out               -->
                     <div class="list-inline-item logout">
                         <form method="POST" action="{{ route('logout') }}">
@@ -69,7 +69,9 @@
         <nav id="sidebar">
             <!-- Sidebar Header-->
             <div class="sidebar-header d-flex align-items-center">
-                <div class="avatar"><img src="img/avatar-6.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="avatar"><img
+                        src="https://img.freepik.com/premium-vector/businessman-avatar-illustration-cartoon-user-portrait-user-profile-icon_118339-4394.jpg"
+                        alt="..." class="img-fluid rounded-circle"></div>
                 <div class="title">
                     <h1 class="h5">Admin Dashboard</h1>
                     <p>Web Designer</p>
@@ -83,7 +85,7 @@
                     <ul id="category" class="collapse list-unstyled ">
                         <li><a href="{{route('admin.addcategory') }}">Add Category</a></li>
                         <li><a href="{{route('admin.viewcategory') }}">View Category</a></li>
-                         
+
                     </ul>
                 </li>
                 <li><a href="#product" aria-expanded="false" data-toggle="collapse"> <i
@@ -112,19 +114,18 @@
                 @yield('updateproduct')
                 @yield('vieworder')
 
-                
-                
+
+
             </section>
 
             <!-- end of section -->
 
             <footer class="footer">
-                <div class="footer__block block no-margin-bottom">
-                    <div class="container-fluid text-center">
-                        <!-- Please do not remove the backlink to us unless you support us at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-                        <p class="no-margin-bottom">2018 &copy; Your company. Download From <a target="_blank"
-                                href="https://templateshub.net">Templates Hub</a>.</p>
-                    </div>
+                <div class="container text-center">
+                    <p>
+                        © <span id="displayYear"></span> All Rights Reserved By
+                        <a href="#" style="color: var(--nav-blue);">AmitWithCoder</a>
+                    </p>
                 </div>
             </footer>
         </div>

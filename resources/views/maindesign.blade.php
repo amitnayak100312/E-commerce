@@ -497,7 +497,7 @@
             Discover a curated collection designed for the modern lifestyle. Unique items, elegantly packaged, delivered
             with care.
           </p>
-          <a href="shop.html" class="btn-explore">
+          <a href="" class="btn-explore">
             EXPLORE NOW
           </a>
         </div>

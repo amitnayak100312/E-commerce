@@ -39,7 +39,7 @@
                                 <option value="Delivered">Delivered<option>
                                 <option value="Pennding">Pennding<option>
                             </select>
-                            <input class="btn btn-warning" type="submit" value="submit" name="submit" onclick=" return confirm('Are you sure?')">
+                            <input class="btn btn-warning btn-sm" type="submit" value="submit" name="submit" onclick=" return confirm('Are you sure?')">
                         </form>
                  </td>
                  
