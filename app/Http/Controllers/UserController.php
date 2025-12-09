@@ -8,13 +8,16 @@ use App\Models\Product;
 use App\Models\ProductCart;
 use App\Models\Order;
 use GuzzleHttp\Handler\Proxy;
+use Pest\Matchers\Any;
 use Reflection;
-
+use Session;
+use Stripe;
 class UserController extends Controller{
 
     public function index()
     {
         if (Auth::check() && Auth::user()->user_type == "user") {
+            return view('dashboard');
         } else if (auth::user()->user_type == "admin") {
             return view('admin.dashboard');
         }
@@ -105,4 +108,58 @@ class UserController extends Controller{
          return redirect()->back()->with('confirmMsg','Order Confirm');
     }
     
+    public function myorders(){
+        $orders = Order::where('user_id',Auth::id())->get();
+        return view('viewmyorders',compact('orders'));
+        
+    }
+    
+     //payment gatway
+    public function stripe($price)
+    {
+         if (Auth::check()) {
+            $count = ProductCart::where('user_id', Auth::id())->count();
+            $cart = ProductCart::where('user_id',Auth::id())->get();
+        } else {
+            $count = '';
+        }
+        
+        $prices = $price;
+        return view('stripe',compact('count','price'));
+    }
+    
+     public function stripePost(Request $request)
+    {
+        
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+      
+        Stripe\Charge::create ([
+                "amount" => 10 * 100,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "Test payment from itsolutionstuff.com." 
+        ]);
+        
+        $cart_user_id = ProductCart::where('user_id',Auth::id())->get();
+        $address = $request->receiver_address;
+        $contact = $request->receiver_contact_num;
+        foreach($cart_user_id as $cart_product){     
+            $order = New Order();
+            $order->receiver_address=$address;
+            $order->receiver_contact_num=$contact;
+            $order->user_id=Auth::id();
+            $order->product_id=$cart_product->product_id;
+            $order->payment_status= "Paid";
+            $order->save();
+        }
+        
+        $carts = ProductCart::where('user_id',Auth::id())->get();
+        foreach($carts as $cart){
+            $cart_id=  ProductCart :: findOrFail($cart->id);
+            $cart_id->delete();
+        }
+                
+        return back()
+                ->with('success', 'Payment successful!');
+    }
 }

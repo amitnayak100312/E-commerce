@@ -31,7 +31,7 @@
                 @endforeach
             </select><label for="">  Select A Category</label><br><br>
             
-            <input type="submit" name="submit" value="Add Product">
+            <input class="btn btn-primary" type="submit" name="submit" value="Add Product">
             
         </form>
     </div>

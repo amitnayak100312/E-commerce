@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Order;
 use GuzzleHttp\Handler\Proxy;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminController extends Controller
 {
@@ -164,5 +166,28 @@ class AdminController extends Controller
             ->orWhere('product_description', 'LIKE', '%' . $request->search . '%')
             ->paginate(2);
         return view('admin.viewproduct', compact('products'));
+    }
+
+
+    //view Order
+    public function vieworder()
+    {
+        $orders = Order::all();
+        return view('admin.vieworder', compact('orders'));
+    }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = $request->status;
+        $order->save();
+        return redirect()->back();
+    }
+
+    public function downloadpdf($id)
+    {
+        $data = Order::findOrFail($id);
+        $pdf = Pdf::loadView('admin.invoice', compact('data'));
+        return $pdf->download('invoice.pdf');
     }
 }

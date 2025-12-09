@@ -57,5 +57,8 @@
                 required><br><br><br>
             <input class="btn btn-secondary" type="submit" name="submit" value="Confirm Order">
         </form>
+        <a href="{{ route('stripe',$price) }}" type="submit" class="btn btn-outline-primary btn-mid">
+                                <i class="fas fa-shopping-cart me-2"></i>pay now
+                            </a>
     </div>
 @endsection

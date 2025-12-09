@@ -32,7 +32,16 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
   <style>
+        #card-element{
+            height: 50px;
+            padding-top: 16px;
+        }
+  
+    
     /* --- THEME VARIABLES --- */
     :root {
       --nav-blue: #87ceeb;
@@ -504,6 +513,7 @@
     @yield('index')
     @yield('products')
     @yield('viewcartproducts')
+    @yield('stripe_view')
   </section>
   <!-- contact section -->
 
@@ -655,7 +665,37 @@
       </div>
     </footer>
   </section>
-
+      
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+  
+    var stripe = Stripe('{{ env('STRIPE_KEY') }}')
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+  
+    /*------------------------------------------
+    --------------------------------------------
+    Create Token Code
+    --------------------------------------------
+    --------------------------------------------*/
+    function createToken() {
+        document.getElementById("pay-btn").disabled = true;
+        stripe.createToken(cardElement).then(function(result) {
+   
+            if(typeof result.error != 'undefined') {
+                document.getElementById("pay-btn").disabled = false;
+                alert(result.error.message);
+            }
+  
+            /* creating token success */
+            if(typeof result.token != 'undefined') {
+                document.getElementById("stripe-token-id").value = result.token.id;
+                document.getElementById('checkout-form').submit();
+            }
+        });
+    }
+</script>
   <script src="/front_end/js/jquery-3.4.1.min.js"></script>
   <script src="front_end/js/bootstrap.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>

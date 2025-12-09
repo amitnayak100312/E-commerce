@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 //auth part
 Route::get('/', [UserController::class,'home'])->name('index');
 Route::get('/dashboard', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/myorders', [UserController::class, 'myorders'])->middleware(['auth', 'verified'])->name('myorders');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -24,6 +25,15 @@ Route::get('/addtocart/{id}', [UserController::class, 'addToCart'])->middleware(
 Route::get('/cartproducts', [UserController::class, 'cartproducts'])->middleware(['auth', 'verified'])->name('cartproducts');
 Route::get('/removecartproduct/{id}', [UserController::class, 'removecartproduct'])->middleware(['auth', 'verified'])->name('removecartproduct');
 Route::post('/confirm_order', [UserController::class, 'confirm_order'])->middleware(['auth', 'verified'])->name('confirm_order');
+
+//payment gateway
+Route::controller(UserController::class)->middleware(['auth', 'verified'])->group(function(){
+    Route::get('stripe/{price}', 'stripe')->name('stripe');
+    Route::post('stripe', 'stripePost')->name('stripe.post');
+});
+
+
+
 
 //admin part
 Route::middleware('admin')->group(function () {
@@ -45,6 +55,10 @@ Route::middleware('admin')->group(function () {
     Route::get('/productupdate/{id}', [AdminController::class, 'productUpdate'])->name('admin.productupdate');
     Route::post('/updateproduct/{id}', [AdminController::class, 'postupdateproduct'])->name('admin.postupdateproduct');
     Route::any('/searchproduct', [AdminController::class, 'searchproduct'])->name('admin.searchproduct');
+    Route::any('/vieworder', [AdminController::class, 'vieworder'])->name('admin.vieworder');
+    Route::any('/changeStatus/{id}', [AdminController::class, 'changeStatus'])->name('admin.changeStatus');
+    Route::get('/downloadpdf/{id}', [AdminController::class, 'downloadpdf'])->name('admin.downloadpdf');
+
 });
 
 require __DIR__ . '/auth.php';
