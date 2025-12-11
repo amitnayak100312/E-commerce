@@ -1,0 +1,40 @@
+# Docker Environment Variables
+# Copy this to .env when building for Docker
+
+APP_NAME="E-Commerce"
+APP_ENV=production
+APP_KEY=base64:REPLACE_WITH_YOUR_KEY
+APP_DEBUG=false
+APP_URL=http://localhost
+
+LOG_CHANNEL=single
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=ecommerce
+DB_USERNAME=ecommerce_user
+DB_PASSWORD=secret123
+
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+
+MAIL_MAILER=log
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=no-reply@ecommerce.local
+MAIL_FROM_NAME="${APP_NAME}"
+
+# Stripe Configuration (Update with your keys)
+STRIPE_PUBLIC_KEY=pk_test_your_key
+STRIPE_SECRET_KEY=sk_test_your_key
+
+# PDF Configuration
+DOMPDF_ENABLED=true
+
+VITE_API_BASE_URL=http://localhost
