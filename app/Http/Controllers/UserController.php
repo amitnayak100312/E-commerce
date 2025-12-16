@@ -6,21 +6,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\ProductCart;
+use App\Models\Project;
+use App\Models\User;
+use Carbon\Carbon;
 use App\Models\Order;
 use GuzzleHttp\Handler\Proxy;
 use Pest\Matchers\Any;
 use Reflection;
 use Session;
 use Stripe;
-class UserController extends Controller{
+
+class UserController extends Controller
+{
 
     public function index()
     {
-        if (Auth::check() && Auth::user()->user_type == "user") {
-            return view('dashboard');
-        } else if (auth::user()->user_type == "admin") {
-            return view('admin.dashboard');
+        if (Auth::check()) {
+            if (Auth::user()->user_type == "user") {
+                return view('dashboard');
+            } else if (Auth::user()->user_type == "admin") {
+                $newClients = User::where('created_at', '>=', Carbon::now()->subDays(30))->count();
+                $newProjects = Project::where('created_at', '>=', Carbon::now()->subDays(30))->count();
+                $allProjects = Project::count();
+                $totalProducts = Product::count();
+                return view('admin.dashboard', compact('newClients', 'newProjects', 'allProjects', 'totalProducts'));
+            }
         }
+
+        return redirect()->back();
     }
 
 
@@ -73,93 +86,95 @@ class UserController extends Controller{
     {
         if (Auth::check()) {
             $count = ProductCart::where('user_id', Auth::id())->count();
-            $cart = ProductCart::where('user_id',Auth::id())->get();
+            $cart = ProductCart::where('user_id', Auth::id())->get();
         } else {
             $count = '';
         }
-        
-        return view('viewcartproducts',compact('count','cart'));
+
+        return view('viewcartproducts', compact('count', 'cart'));
     }
-    
-    public function removecartproduct($id){
+
+    public function removecartproduct($id)
+    {
         $cart_product = ProductCart::findOrFail($id);
         $cart_product->delete();
         return redirect()->back();
     }
-    
-    public function confirm_order(Request $request){
-        $cart_user_id = ProductCart::where('user_id',Auth::id())->get();
+
+    public function confirm_order(Request $request)
+    {
+        $cart_user_id = ProductCart::where('user_id', Auth::id())->get();
         $address = $request->receiver_address;
         $contact = $request->receiver_contact_num;
-        foreach($cart_user_id as $cart_product){     
-            $order = New Order();
-            $order->receiver_address=$address;
-            $order->receiver_contact_num=$contact;
-            $order->user_id=Auth::id();
-            $order->product_id=$cart_product->product_id;
+        foreach ($cart_user_id as $cart_product) {
+            $order = new Order();
+            $order->receiver_address = $address;
+            $order->receiver_contact_num = $contact;
+            $order->user_id = Auth::id();
+            $order->product_id = $cart_product->product_id;
             $order->save();
         }
-        
-        $carts = ProductCart::where('user_id',Auth::id())->get();
-        foreach($carts as $cart){
-            $cart_id=  ProductCart :: findOrFail($cart->id);
+
+        $carts = ProductCart::where('user_id', Auth::id())->get();
+        foreach ($carts as $cart) {
+            $cart_id =  ProductCart::findOrFail($cart->id);
             $cart_id->delete();
         }
-         return redirect()->back()->with('confirmMsg','Order Confirm');
+        return redirect()->back()->with('confirmMsg', 'Order Confirm');
     }
-    
-    public function myorders(){
-        $orders = Order::where('user_id',Auth::id())->get();
-        return view('viewmyorders',compact('orders'));
-        
+
+    public function myorders()
+    {
+        $orders = Order::where('user_id', Auth::id())->get();
+        return view('viewmyorders', compact('orders'));
     }
-    
-     //payment gatway
+
+    //payment gatway
     public function stripe($price)
     {
-         if (Auth::check()) {
+        if (Auth::check()) {
             $count = ProductCart::where('user_id', Auth::id())->count();
-            $cart = ProductCart::where('user_id',Auth::id())->get();
+            $cart = ProductCart::where('user_id', Auth::id())->get();
         } else {
             $count = '';
         }
-        
+
         $prices = $price;
-        return view('stripe',compact('count','price'));
+        return view('stripe', compact('count', 'price'));
     }
-    
-     public function stripePost(Request $request)
+
+    public function stripePost(Request $request)
     {
-        
+
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-      
-        Stripe\Charge::create ([
-                "amount" => 10 * 100,
-                "currency" => "usd",
-                "source" => $request->stripeToken,
-                "description" => "Test payment from itsolutionstuff.com." 
+
+        Stripe\Charge::create([
+            "amount" => 10 * 100,
+            "currency" => "usd",
+            "source" => $request->stripeToken,
+            "description" => "Test payment from itsolutionstuff.com."
         ]);
-        
-        $cart_user_id = ProductCart::where('user_id',Auth::id())->get();
+
+        $cart_user_id = ProductCart::where('user_id', Auth::id())->get();
         $address = $request->receiver_address;
         $contact = $request->receiver_contact_num;
-        foreach($cart_user_id as $cart_product){     
-            $order = New Order();
-            $order->receiver_address=$address;
-            $order->receiver_contact_num=$contact;
-            $order->user_id=Auth::id();
-            $order->product_id=$cart_product->product_id;
-            $order->payment_status= "Paid";
+        foreach ($cart_user_id as $cart_product) {
+            $order = new Order();
+            $order->receiver_address = $address;
+            $order->receiver_contact_num = $contact;
+            $order->user_id = Auth::id();
+            $order->product_id = $cart_product->product_id;
+            $order->payment_status = "Paid";
             $order->save();
         }
-        
-        $carts = ProductCart::where('user_id',Auth::id())->get();
-        foreach($carts as $cart){
-            $cart_id=  ProductCart :: findOrFail($cart->id);
+
+        $carts = ProductCart::where('user_id', Auth::id())->get();
+        foreach ($carts as $cart) {
+            $cart_id =  ProductCart::findOrFail($cart->id);
             $cart_id->delete();
         }
-                
+
         return back()
-                ->with('success', 'Payment successful!');
+            ->with('success', 'Payment successful!');
     }
 }

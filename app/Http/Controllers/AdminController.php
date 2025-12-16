@@ -1,11 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
+
+use App\Models\User;      
+use App\Models\Project;   
+use App\Models\Product;   
+use App\Models\Invoice;   
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderStatusMail;
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Product;
 use App\Models\Order;
 use GuzzleHttp\Handler\Proxy;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -201,5 +205,27 @@ class AdminController extends Controller
         $data = Order::findOrFail($id);
         $pdf = Pdf::loadView('admin.invoice', compact('data'));
         return $pdf->download('invoice.pdf');
+    }
+    
+    
+    //dashboard
+    
+    public function dashboard()
+    {
+        // 1. Get "New Clients" (Users created in the last 30 days)
+        $newClients = User::where('created_at', '>=', Carbon::now()->subDays(30))->count();
+        
+        // 2. Get "New Projects" (Projects created in the last 30 days)
+        $newProjects = Project::where('created_at', '>=', Carbon::now()->subDays(30))->count();
+
+        // 3. Get "All Projects" (Total count)
+        $allProjects = Project::count();
+
+        // 4. Get "Total Products" (As you asked for product count)
+        // You can replace "Invoices" with "Products" here
+        $totalProducts = Product::count(); 
+
+        // Return the view with the data
+        return view('admin.dashboard', compact('newClients', 'newProjects', 'allProjects', 'totalProducts'));
     }
 }
