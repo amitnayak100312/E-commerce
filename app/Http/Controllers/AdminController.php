@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderStatusMail;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
@@ -176,12 +177,23 @@ class AdminController extends Controller
         return view('admin.vieworder', compact('orders'));
     }
 
-    public function changeStatus(Request $request, $id)
+   public function changeStatus(Request $request, $id)
     {
         $order = Order::findOrFail($id);
+        
+        // Update the status
         $order->status = $request->status;
         $order->save();
-        return redirect()->back();
+
+        // Send Email to the User
+        // We assume the Order model has a 'user' relationship defined
+        $userEmail = $order->user->email;
+        
+        if($userEmail) {
+            Mail::to($userEmail)->send(new OrderStatusMail($order, $request->status));
+        }
+
+        return redirect()->back()->with('status_msg', 'Status updated and Email sent!');
     }
 
     public function downloadpdf($id)

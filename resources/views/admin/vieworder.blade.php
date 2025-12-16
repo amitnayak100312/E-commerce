@@ -31,26 +31,27 @@
                         <img style="width: 100px;" src="{{asset('products/' . $order->product->product_image)}}">
                     </td>
                     <td style="padding: 12px">
-                        <form action="{{route('admin.changeStatus',$order->id)}}" method="post">
+                        <form action="{{route('admin.changeStatus', $order->id)}}" method="post">
                             @csrf
-                            <select class="form-select" name="status" id="">
-                                <option value="$order->status">{{$order->status}}</option>
-                                <option value="Shipped">Shipped<option>
-                                <option value="Delivered">Delivered<option>
-                                <option value="Pennding">Pennding<option>
+                            <select class="form-select" name="status">
+                                <option value="{{$order->status}}" selected>{{$order->status}}</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Pending">Pending</option>
                             </select>
-                            <input class="btn btn-warning btn-sm" type="submit" value="submit" name="submit" onclick=" return confirm('Are you sure?')">
+                            <input class="btn btn-warning btn-sm" type="submit" value="submit" name="submit"
+                                onclick=" return confirm('Are you sure?')">
                         </form>
-                 </td>
-                 
-                 <td style="padding: 12px">
-                    <a href="{{route('admin.downloadpdf', $order->id)}}">
-                        Download PDF
-                    </a>
-                 </td>
+                    </td>
+
+                    <td style="padding: 12px">
+                        <a href="{{route('admin.downloadpdf', $order->id)}}">
+                            Download PDF
+                        </a>
+                    </td>
                 </tr>
             @endforeach
-{{-- 
+            {{--
             {{ $products->links()}} --}}
         </tbody>
     </table>
