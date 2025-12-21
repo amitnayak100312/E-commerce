@@ -449,23 +449,23 @@
   <div class="header_wrapper">
     <div class="container">
       <div class="brand_box">
-        <a href="index.html" style="text-decoration:none;">
+        <a href="" style="text-decoration:none;">
           <span>GIFTOS</span>
+          
+    <img src="font_end/images/logo.png" alt="">
+          
         </a>
       </div>
 
       <div class="custom_nav_bar">
         <div class="custom_nav_links">
-          <a href="./" class="nav_link_item active">HOME</a>
-          <a href="shop.html" class="nav_link_item">SHOP</a>
-          <a href="why.html" class="nav_link_item">WHY US</a>
-          <a href="testimonial.html" class="nav_link_item">STORIES</a>
-          <a href="contact.html" class="nav_link_item">CONTACT</a>
+          <a href="./" class="nav_link_item">HOME</a>
+          <a href="{{route('viewallproducts')}}" class="nav_link_item">SHOP</a>
         </div>
 
         <div class="user_actions">
           @if(Auth::check())
-            <a href="{{ route('dashboard') }}">Dashboard</a>
+            <a href="{{ route('myorders') }}">My Order</a>
           @else
             <a href="{{ route('login') }}">Login</a>
             <a href="{{ route('register') }}">Sign Up</a>
@@ -555,39 +555,6 @@
     </div>
   </section>
 
-  {{-- <section class="client_section">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>Customer Stories</h2>
-      </div>
-      <div class="carousel-wrap layout_padding2-top">
-        <div class="owl-carousel owl-theme">
-          <div class="item">
-            <div class="client_box">
-              <div class="client_id">
-                <img src="front_end/images/client.jpg" alt="">
-              </div>
-              <div class="client_detail">
-                <h5>Brad Johns</h5>
-                <p>"The packaging was stunning and the delivery was incredibly fast. Highly recommended!"</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="client_box">
-              <div class="client_id">
-                <img src="front_end/images/client.jpg" alt="">
-              </div>
-              <div class="client_detail">
-                <h5>Sarah Smith</h5>
-                <p>"I found the perfect unique gift for my sister. The quality exceeded my expectations."</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> --}}
 
   <section class="contact_section">
     <div class="container">
