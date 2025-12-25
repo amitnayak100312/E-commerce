@@ -173,6 +173,19 @@
         .check-box { margin-right: 10px; accent-color: #f7444e; }
     </style>
     
+     <header class="header_section">
+        <nav class="navbar">
+            <a href="{{ url('/') }}" class="navbar-brand">GIFTOS</a>
+            <ul class="navbar-nav">
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li><a href="{{ route('viewallproducts') }}">Shop</a></li>
+                <li><a href="#">Why Us</a></li>
+                <li><a href="#">Testimonial</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    
     <div class="auth-wrapper">
         <div class="form-container">
             <div class="button-box">
@@ -182,6 +195,7 @@
             </div>
 
             <h3>Welcome Back</h3>
+            
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf

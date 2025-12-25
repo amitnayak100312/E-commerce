@@ -7,6 +7,7 @@
             <tr style="background-color: #f2f2f2;">
                 {{-- <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Product ID</th> --}}
                 <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Customer Name</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Customer Email</th>
                 <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Address</th>
                 <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Contact No</th>
                 <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Product</th>
@@ -22,6 +23,7 @@
                 <tr style="border-bottom: 1px solid #ddd;">
                     {{-- <td style="padding: 12px;">{{$product->id}}</td> --}}
                     <td style="padding: 12px;">{{$order->user->name}}</td>
+                    <td style="padding: 12px;">{{$order->user->email}}</td>
                     <td style="padding: 12px;">{{$order->receiver_address}}</td>
                     <td style="padding: 12px;">{{$order->receiver_contact_num}}</td>
                     <td style="padding: 12px;">{{$order->product->product_title}}</td>

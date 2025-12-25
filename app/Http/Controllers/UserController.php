@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
@@ -20,22 +21,28 @@ class UserController extends Controller
 {
 
     public function index()
-    {
-        if (Auth::check()) {
-            if (Auth::user()->user_type == "user") {
-                return view('dashboard');
-            } else if (Auth::user()->user_type == "admin") {
-                $newClients = User::where('created_at', '>=', Carbon::now()->subDays(30))->count();
-                $newProjects = Project::where('created_at', '>=', Carbon::now()->subDays(30))->count();
-                $allProjects = Project::count();
-                $totalProducts = Product::count();
-                return view('admin.dashboard', compact('newClients', 'newProjects', 'allProjects', 'totalProducts'));
-            }
-        }
+{
+    if (Auth::check()) {
+        
+        $usertype = Auth::user()->user_type;
 
-        return redirect()->back();
+        if ($usertype == "user") {
+            return redirect()->route('myorders');
+        } 
+        
+        else if ($usertype == "admin") {
+             $newClients = User::where('created_at', '>=', Carbon::now()->subDays(30))->count();
+            
+             $totalCategories = Category::count();
+            
+            $totalProducts = Product::count();
+            
+            return view('admin.dashboard', compact('newClients', 'totalCategories', 'totalProducts'));
+        }
     }
 
+    return redirect()->back();
+}
 
     public function home()
     {

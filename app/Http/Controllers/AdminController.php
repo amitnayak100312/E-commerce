@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;      
-use App\Models\Project;   
 use App\Models\Product;   
 use App\Models\Invoice;   
 use Carbon\Carbon;
@@ -212,20 +211,14 @@ class AdminController extends Controller
     
     public function dashboard()
     {
-        // 1. Get "New Clients" (Users created in the last 30 days)
+        
         $newClients = User::where('created_at', '>=', Carbon::now()->subDays(30))->count();
         
-        // 2. Get "New Projects" (Projects created in the last 30 days)
-        $newProjects = Project::where('created_at', '>=', Carbon::now()->subDays(30))->count();
+        $totalCategories = Category::count();
 
-        // 3. Get "All Projects" (Total count)
-        $allProjects = Project::count();
-
-        // 4. Get "Total Products" (As you asked for product count)
-        // You can replace "Invoices" with "Products" here
         $totalProducts = Product::count(); 
 
         // Return the view with the data
-        return view('admin.dashboard', compact('newClients', 'newProjects', 'allProjects', 'totalProducts'));
+        return view('admin.dashboard', compact('newClients', 'totalProducts', 'totalCategories'));
     }
-}
+    }

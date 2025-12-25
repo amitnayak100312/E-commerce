@@ -32,7 +32,7 @@ Route::controller(UserController::class)->middleware(['auth', 'verified'])->grou
     Route::post('stripe', 'stripePost')->name('stripe.post');
 });
 
-
+// Route:any('/why',);
 
 
 //admin part

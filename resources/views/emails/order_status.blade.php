@@ -66,7 +66,7 @@
 
                                     <td align="right" style="border-bottom: 1px solid #e5e7eb; vertical-align: middle;">
                                         <div style="font-size: 18px; font-weight: bold; color: #4f46e5;">
-                                            ${{ number_format($order->product->product_price, 2) }}
+                                            ₹{{ number_format($order->product->product_price, 2) }}
                                         </div>
                                     </td>
                                 </tr>

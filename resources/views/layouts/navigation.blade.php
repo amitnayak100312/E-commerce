@@ -12,12 +12,17 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <div class="pt-2 pb-3 space-y-1">
+                    @if(Auth::user()->user_type == 'admin')
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @else
                     <x-nav-link :href="route('myorders')" :active="request()->routeIs('myorders')">
                         {{ __('My Orders') }}
                     </x-nav-link>
+                    @endif
+                    </div>
                 </div>
             </div>
 

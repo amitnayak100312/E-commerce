@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html>
 
 <head>
@@ -54,7 +54,7 @@
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="why.html">
+              <a class="nav-link" href="{{route('why')}}">
                 Why Us
               </a>
             </li>
@@ -470,4 +470,4 @@
   <script src="front_end/js/custom.js"></script>
 </body>
 
-</html>
+</html> --}}

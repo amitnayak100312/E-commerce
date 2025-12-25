@@ -119,17 +119,6 @@
                 <form action="#" method="POST">
                     @csrf
                     <div class="row align-items-end mb-4">
-                        <div class="col-auto">
-                            <label class="fw-bold mb-2">Quantity</label>
-                            <div class="input-group">
-                                <button class="btn btn-outline-secondary" type="button"
-                                    onclick="decrementValue()">-</button>
-                                <input type="text" class="form-control quantity-input" id="quantity" name="quantity"
-                                    value="1" readonly>
-                                <button class="btn btn-outline-secondary" type="button"
-                                    onclick="incrementValue()">+</button>
-                            </div>
-                        </div>
                         <div class="col">
                             <a href="{{ route('add_to_cart', $product->id)}}" type="submit"
                                 class="btn btn-outline-primary btn-mid">
